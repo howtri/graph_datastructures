@@ -182,9 +182,31 @@ class UndirectedGraph:
 
     def count_connected_components(self):
         """
-        Return number of connected componets in the graph
+        Return number of connected components in the graph
         """
-        pass
+        components = 0
+        vertices = self.get_vertices()
+        visited = []
+        while len(visited) != len(vertices):
+            components += 1
+            # we just need to visit all the edges within this component in whatever order
+            stack = []
+
+            for i in vertices:
+                if i not in visited:
+                    # the first value not already seen to find any unattached components
+                    start = i
+                    break
+
+            stack.append(start)
+            while len(stack):
+                cur = stack.pop()
+                if cur not in visited:
+                    visited.append(cur)
+                    for neighbor in self.adj_list[cur]:
+                        if neighbor not in visited:
+                            stack.append(neighbor)
+        return components
 
     def has_cycle(self):
         """

@@ -52,9 +52,15 @@ class DirectedGraph:
 
     def add_vertex(self) -> int:
         """
-        TODO: Write this implementation
+        create new list and extend all previous lists as not being an edge of the newest vertex
         """
-        pass
+        # add the newest list
+        self.adj_matrix.append([0 for i in range(len(self.adj_matrix))])
+        # add a new column to each list including the newest
+        for list in self.adj_matrix:
+            list.append(0)
+
+        self.v_count += 1
 
     def add_edge(self, src: int, dst: int, weight=1) -> None:
         """
