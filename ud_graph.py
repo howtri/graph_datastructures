@@ -3,6 +3,8 @@
 # Assignment: 
 # Description:
 
+import heapq
+from collections import deque
 
 class UndirectedGraph:
     """
@@ -127,15 +129,56 @@ class UndirectedGraph:
         Return list of vertices visited during DFS search
         Vertices are picked in alphabetical order
         """
-        pass
-       
+
+        visited = []
+        # "stack" operations for a list will be pop and append
+        # using a list to find the next *smallest vertex to follow
+        stack = []
+        stack.append(v_start)
+
+        while len(stack):
+            cur = stack.pop()
+            if cur not in visited:
+                visited.append(cur)
+                if cur == v_end:
+                    # the path when we found the end
+                    return visited
+                next_level = []
+                for neighbor in self.adj_list[cur]:
+                    if neighbor not in visited:
+                        next_level.append(neighbor)
+                next_level.sort()
+                # move "lowest" lexicographically sorted values to the top of the stack
+                stack += next_level[::-1]
+        return visited
+
 
     def bfs(self, v_start, v_end=None) -> []:
         """
         Return list of vertices visited during BFS search
         Vertices are picked in alphabetical order
         """
-        pass
+        visited = []
+        # "stack" operations for a list will be pop and insert[0]
+        # using a list to find the next *smallest vertex to follow
+        stack = []
+        stack.append(v_start)
+
+        while len(stack):
+            cur = stack.pop()
+            if cur not in visited:
+                visited.append(cur)
+                if cur == v_end:
+                    # the path when we found the end
+                    return visited
+                next_level = []
+                for neighbor in self.adj_list[cur]:
+                    if neighbor not in visited:
+                        next_level.append(neighbor)
+                next_level.sort()
+                # move "lowest" lexicographically sorted values to the top of the stack
+                stack = next_level[::-1] + stack
+        return visited
 
     def count_connected_components(self):
         """
