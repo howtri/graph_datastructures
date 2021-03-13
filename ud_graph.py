@@ -1,7 +1,7 @@
-# Course: 
-# Author: 
-# Assignment: 
-# Description:
+# Course: CS261 - Data Structures
+# Author: Tristan Howell
+# Assignment: Assignment 6: Graph Data Structures
+# Description: Implement an undirected graph data structure
 
 import heapq
 from collections import deque
@@ -44,7 +44,9 @@ class UndirectedGraph:
 
     def add_vertex(self, v: str) -> None:
         """
-        Add new vertex to the graph
+        Accepts a str v to add as a new vertex in the graph
+
+        No returns
         """
         if v in self.adj_list:
             return
@@ -52,7 +54,9 @@ class UndirectedGraph:
         
     def add_edge(self, u: str, v: str) -> None:
         """
-        Add edge to the graph
+        Accepts two strs representing vertices and links with an edge in each vertex's list
+
+        No returns
         """
         self.add_vertex(u)
         self.add_vertex(v)
@@ -63,7 +67,9 @@ class UndirectedGraph:
 
     def remove_edge(self, v: str, u: str) -> None:
         """
-        Remove edge from the graph
+        Accepts two strs representing vertices and removes the edge link in each vertex's list
+
+        No returns
         """
         if v not in self.adj_list or u not in self.adj_list:
             return
@@ -79,7 +85,9 @@ class UndirectedGraph:
 
     def remove_vertex(self, v: str) -> None:
         """
-        Remove vertex and all connected edges
+        Accepts a str representing a vertex and removes it and all edges linking to it
+
+        No returns
         """
         if v not in self.adj_list:
             return
@@ -91,12 +99,16 @@ class UndirectedGraph:
 
     def get_vertices(self) -> []:
         """
-        Return list of vertices in the graph (any order)
+        Accepts no parameters
+
+        Returns list of vertices in the graph (any order)
         """
         return [vertex for vertex in self.adj_list]
 
     def get_edges(self) -> []:
         """
+        Accepts no parameters
+
         Return list of edges in the graph (any order)
         """
         edge_pairs = []
@@ -110,6 +122,8 @@ class UndirectedGraph:
 
     def is_valid_path(self, path: []) -> bool:
         """
+        Accepts a list path of vertices
+
         Return true if provided path is valid, False otherwise
         """
         # empty or path of one vertex is valid
@@ -126,6 +140,8 @@ class UndirectedGraph:
 
     def dfs(self, v_start, v_end=None) -> []:
         """
+        Accepts a start and optional end vertex to perform a dfs on
+
         Return list of vertices visited during DFS search
         Vertices are picked in alphabetical order
         """
@@ -155,6 +171,8 @@ class UndirectedGraph:
 
     def bfs(self, v_start, v_end=None) -> []:
         """
+        Accepts a start and optional end vertex to perform a bfs on
+
         Return list of vertices visited during BFS search
         Vertices are picked in alphabetical order
         """
@@ -182,6 +200,8 @@ class UndirectedGraph:
 
     def count_connected_components(self):
         """
+        Accepts no parameters
+
         Return number of connected components in the graph
         """
         components = 0
@@ -210,11 +230,35 @@ class UndirectedGraph:
 
     def has_cycle(self):
         """
-        Return True if graph contains a cycle, False otherwise
-        """
-        pass
+        Accepts no parameters and checks for any loops within the graph
 
-   
+        Returns True if a loop is present, otherwise False
+        """
+        visited = []
+        stack = []
+
+        for vertex in self.adj_list:
+            stack.append(vertex)
+
+            while len(stack):
+                cur = stack.pop()
+                if cur not in visited:
+                    visited.append(cur)
+
+                    next_level = []
+                    for neighbor in self.adj_list[cur]:
+                        next_level.append(neighbor)
+                    next_level.sort()
+                    # move "lowest" lexicographically sorted values to the top of the stack
+                    stack += next_level[::-1]
+
+                if cur in stack:
+                    return True
+
+            visited = []
+            stack = []
+
+        return False
 
 
 if __name__ == '__main__':

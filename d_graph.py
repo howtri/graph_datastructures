@@ -1,7 +1,7 @@
 # Course: CS261 - Data Structures
-# Author:
-# Assignment:
-# Description:
+# Author: Tristan Howell
+# Assignment: Assignment 6: Graph Data Structures
+# Description: Implement a directed graph data structure
 
 class DirectedGraph:
     """
@@ -52,7 +52,9 @@ class DirectedGraph:
 
     def add_vertex(self) -> int:
         """
-        create new list and extend all previous lists as not being an edge of the newest vertex
+        Create new nested list in the matrix and extend all previous lists as not being an edge of the newest vertex
+
+        Returns the number of vertices in the graph
         """
         # add the newest list
         self.adj_matrix.append([0 for i in range(len(self.adj_matrix))])
@@ -61,10 +63,13 @@ class DirectedGraph:
             list.append(0)
 
         self.v_count += 1
+        return self.v_count
 
     def add_edge(self, src: int, dst: int, weight=1) -> None:
         """
-        TODO: Write this implementation
+        Accepts two ints representing vertices and adds a weight representing an edge between them
+
+        No returns
         """
         if weight < 0 or src == dst:
             return
@@ -78,7 +83,9 @@ class DirectedGraph:
 
     def remove_edge(self, src: int, dst: int) -> None:
         """
-        TODO: Write this implementation
+        Accepts two ints representing vertices and removes the weight representing an edge between them
+
+        No returns
         """
         if src >= self.v_count or dst >= self.v_count:
             return
@@ -87,13 +94,17 @@ class DirectedGraph:
 
     def get_vertices(self) -> []:
         """
-        TODO: Write this implementation
+        No parameters
+
+        Returns all vertices in the graph
         """
         return list(range(self.v_count))
 
     def get_edges(self) -> []:
         """
-        TODO: Write this implementation
+        No parameters
+
+        Returns all edges of the graph represented as the src, dst, and weight
         """
         edges = []
         for outer in range(self.v_count):
@@ -104,7 +115,9 @@ class DirectedGraph:
 
     def is_valid_path(self, path: []) -> bool:
         """
-        TODO: Write this implementation
+        Accepts a path list
+
+        Returns True for a valid path, otherwise False
         """
         if not path:
             return True
@@ -125,25 +138,102 @@ class DirectedGraph:
 
     def dfs(self, v_start, v_end=None) -> []:
         """
-        TODO: Write this implementation
+        Accepts a start and optional end vertex to perform a dfs on
+
+        Return list of vertices visited during DFS search
+        Vertices are picked in alphabetical order
         """
-        pass
+        visited = []
+        # "stack" operations for a list will be pop and append
+        # using a list to find the next *smallest vertex to follow
+        stack = []
+        stack.append(v_start)
+
+        while len(stack):
+            cur = stack.pop()
+            if cur not in visited:
+                visited.append(cur)
+                if cur == v_end:
+                    # the path when we found the end
+                    return visited
+                next_level = []
+                for neighbor_pos in range(len(self.adj_matrix[cur])):
+                    if self.adj_matrix[cur][neighbor_pos] and neighbor_pos not in visited:
+                        next_level.append(neighbor_pos)
+                next_level.sort()
+                # move "lowest" lexicographically sorted values to the top of the stack
+                stack += next_level[::-1]
+        return visited
 
     def bfs(self, v_start, v_end=None) -> []:
         """
-        TODO: Write this implementation
+        Accepts a start and optional end vertex to perform a dfs on
+
+        Return list of vertices visited during DFS search
+        Vertices are picked in alphabetical order
         """
-        pass
+        visited = []
+        # "stack" operations for a list will be pop and insert[0]
+        # using a list to find the next *smallest vertex to follow
+        stack = []
+        stack.append(v_start)
+
+        while len(stack):
+            cur = stack.pop()
+            if cur not in visited:
+                visited.append(cur)
+                if cur == v_end:
+                    # the path when we found the end
+                    return visited
+                next_level = []
+                for neighbor_pos in range(len(self.adj_matrix[cur])):
+                    if self.adj_matrix[cur][neighbor_pos] and neighbor_pos not in visited:
+                        next_level.append(neighbor_pos)
+                next_level.sort()
+                # move "lowest" lexicographically sorted values to the top of the stack
+                stack = next_level[::-1] + stack
+        return visited
 
     def has_cycle(self):
         """
-        TODO: Write this implementation
+        Accepts no parameters and checks for any loops within the graph
+
+        Returns True if a loop is present, otherwise False
         """
-        pass
+        visited = []
+        stack = []
+
+        for vertex_pos in range(self.v_count):
+            stack.append(vertex_pos)
+
+            while len(stack):
+                cur = stack.pop()
+                if cur not in visited:
+                    visited.append(cur)
+
+                    next_level = []
+                    for neighbor_pos in range(len(self.adj_matrix[cur])):
+                        if self.adj_matrix[cur][neighbor_pos]:
+                            next_level.append(neighbor_pos)
+                    next_level.sort()
+                    # move "lowest" lexicographically sorted values to the top of the stack
+                    stack += next_level[::-1]
+
+                if cur in stack:
+                    return True
+
+
+            visited = []
+            stack = []
+
+        return False
 
     def dijkstra(self, src: int) -> []:
         """
-        TODO: Write this implementation
+        Accepts an int as the start vertex and uses dijkstras algorithm to determine distances to all nodes, inf if not
+        possible
+
+        Returns a list of "distances" (sum of weights)
         """
         pass
 
