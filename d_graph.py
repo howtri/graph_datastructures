@@ -66,31 +66,62 @@ class DirectedGraph:
         """
         TODO: Write this implementation
         """
-        pass
+        if weight < 0 or src == dst:
+            return
+
+        if src >= self.v_count or dst >= self.v_count:
+            return
+
+        # src is the list and dst is the index in that list
+        self.adj_matrix[src][dst] = weight
+
 
     def remove_edge(self, src: int, dst: int) -> None:
         """
         TODO: Write this implementation
         """
-        pass
+        if src >= self.v_count or dst >= self.v_count:
+            return
+
+        self.adj_matrix[src][dst] = 0
 
     def get_vertices(self) -> []:
         """
         TODO: Write this implementation
         """
-        pass
+        return list(range(self.v_count))
 
     def get_edges(self) -> []:
         """
         TODO: Write this implementation
         """
-        pass
+        edges = []
+        for outer in range(self.v_count):
+            for inner in range(self.v_count):
+                if self.adj_matrix[outer][inner]:
+                    edges.append((outer, inner, self.adj_matrix[outer][inner]))
+        return edges
 
     def is_valid_path(self, path: []) -> bool:
         """
         TODO: Write this implementation
         """
-        pass
+        if not path:
+            return True
+
+        if len(path) == 1 and path[0] not in range(self.v_count):
+            return False
+
+        for position in range(len(path)):
+            current = self.adj_matrix[path[position]]
+            edges = [i for i in range(len(current)) if current[i]]
+            # check the next position in the path is a vertex and is connected to the current
+            if position + 1 == len(path):
+                break
+            if path[position + 1] not in range(self.v_count) or path[position + 1] not in edges:
+                return False
+
+        return True
 
     def dfs(self, v_start, v_end=None) -> []:
         """
