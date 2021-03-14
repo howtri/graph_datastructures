@@ -145,10 +145,9 @@ class UndirectedGraph:
         Return list of vertices visited during DFS search
         Vertices are picked in alphabetical order
         """
-        if v_start == v_end:
-            return [v_start]
-
         visited = []
+        if v_start not in self.adj_list:
+            return visited
         # "stack" operations for a list will be pop and append
         # using a list to find the next *smallest vertex to follow
         stack = []
@@ -178,10 +177,9 @@ class UndirectedGraph:
         Return list of vertices visited during BFS search
         Vertices are picked in alphabetical order
         """
-        if v_start == v_end:
-            return [v_start]
-
         visited = []
+        if v_start not in self.adj_list:
+            return visited
         # "stack" operations for a list will be pop and insert[0]
         # using a list to find the next *smallest vertex to follow
         stack = []
