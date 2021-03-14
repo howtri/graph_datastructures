@@ -258,7 +258,7 @@ class DirectedGraph:
             if ind in visited:
                 distances.append(visited[ind])
             else:
-                distances.append("inf")
+                distances.append(float('inf'))
 
         return distances
 

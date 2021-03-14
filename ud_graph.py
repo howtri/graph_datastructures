@@ -58,6 +58,9 @@ class UndirectedGraph:
 
         No returns
         """
+        if u == v:
+            return
+
         self.add_vertex(u)
         self.add_vertex(v)
         if v not in self.adj_list[u]:
@@ -144,6 +147,8 @@ class UndirectedGraph:
         """
 
         visited = []
+        if v_start == v_end:
+            return visited
         # "stack" operations for a list will be pop and append
         # using a list to find the next *smallest vertex to follow
         stack = []
@@ -174,9 +179,12 @@ class UndirectedGraph:
         Vertices are picked in alphabetical order
         """
         visited = []
+        if v_start == v_end:
+            return visited
         # "stack" operations for a list will be pop and insert[0]
         # using a list to find the next *smallest vertex to follow
         stack = []
+
         stack.append(v_start)
 
         while len(stack):
