@@ -3,6 +3,9 @@
 # Assignment: Assignment 6: Graph Data Structures
 # Description: Implement a directed graph data structure
 
+import heapq
+from collections import deque
+
 class DirectedGraph:
     """
     Class to implement directed weighted graph
@@ -236,6 +239,31 @@ class DirectedGraph:
         Returns a list of "distances" (sum of weights)
         """
         pass
+        visited = {}
+        pr_heap = []
+        heapq.heappush(pr_heap, (0, src))
+        while pr_heap:
+            cur = heapq.heappop(pr_heap)
+            cur_vert = cur[1]
+            cur_dis = cur[0]
+            if cur_vert not in visited:
+                visited[cur_vert] = cur_dis
+                # all neighbors
+                for neighbor_pos in range(len(self.adj_matrix[cur_vert])):
+                    if self.adj_matrix[cur_vert][neighbor_pos]:
+                        heapq.heappush(pr_heap, (self.adj_matrix[cur_vert][neighbor_pos] + cur_dis, neighbor_pos))
+
+        # any indexes to the range of v_count not in visited are unreachable, place into index order in list
+        distances = []
+        for ind in range(self.v_count):
+            if ind in visited:
+                distances.append(visited[ind])
+            else:
+                distances.append("inf")
+
+        return distances
+
+
 
 
 if __name__ == '__main__':
