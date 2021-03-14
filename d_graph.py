@@ -90,7 +90,8 @@ class DirectedGraph:
 
         No returns
         """
-        if 0 < src < self.v_count or 0 < dst < self.v_count:
+        vcount = self.v_count
+        if not (0 < src < self.v_count or 0 < dst < self.v_count):
             return
 
         self.adj_matrix[src][dst] = 0
