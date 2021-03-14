@@ -77,9 +77,6 @@ class UndirectedGraph:
         if v not in self.adj_list[u] or u not in self.adj_list[v]:
             return
 
-        lv = v
-        lu = u
-        1+1
         self.adj_list[v].remove(u)
         self.adj_list[u].remove(v)
 

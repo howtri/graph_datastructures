@@ -225,7 +225,6 @@ class DirectedGraph:
                 if cur in stack:
                     return True
 
-
             visited = []
             stack = []
 
@@ -238,7 +237,6 @@ class DirectedGraph:
 
         Returns a list of "distances" (sum of weights)
         """
-        pass
         visited = {}
         pr_heap = []
         heapq.heappush(pr_heap, (0, src))
@@ -251,6 +249,7 @@ class DirectedGraph:
                 # all neighbors
                 for neighbor_pos in range(len(self.adj_matrix[cur_vert])):
                     if self.adj_matrix[cur_vert][neighbor_pos]:
+                        # current distance and next to determine overall shortest
                         heapq.heappush(pr_heap, (self.adj_matrix[cur_vert][neighbor_pos] + cur_dis, neighbor_pos))
 
         # any indexes to the range of v_count not in visited are unreachable, place into index order in list
